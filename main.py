@@ -68,7 +68,7 @@ shap.summary_plot(shap_values, x_test)
 st.pyplot(fig1)
 
 def get_user_input():
-    Branch_code = st.selectbox('Branch_code', np.sort(df['Branch_code'].unique()), key='1')
+    Branch_code = st.sidebar.selectbox('Branch_code', np.sort(df['Branch_code'].unique()), key='1')
     Vehicle_Make = st.sidebar.selectbox('Vehicle_Make', np.sort(df['Vehicle_Make'].unique()), key='2')
     Year_Manufacture = st.sidebar.selectbox('Year_Manufacture', [0, 1], key='3')
     Loan_Tenure = st.sidebar.selectbox('Loan_Tenure', np.sort(df['Loan_Tenure'].unique()), key='4')
