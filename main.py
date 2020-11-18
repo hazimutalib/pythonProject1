@@ -68,8 +68,7 @@ fig1, ax1 = plt.subplots()
 shap.summary_plot(shap_values, x_test)
 st.pyplot(fig1)
 
-'Branch_code', 'Vehicle_Make', 'Year_Manufacture', 'Loan_Tenure',
-       'Interest_Rate', 'Annual_Income', 'Loan_Amount'
+
 
 def get_user_input():
     Branch_code = st.sidebar.selectbox('Branch code', np.sort(df['Branch_code'].unique()), key = '1')
