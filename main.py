@@ -67,9 +67,24 @@ fig1, ax1 = plt.subplots()
 shap.summary_plot(shap_values, x_test)
 st.pyplot(fig1)
 
-Branch_code = st.selectbox('Branch_code',np.sort(df['Branch_code'].unique()), key = '1')
-Vehicle_Make = st.sidebar.selectbox('Vehicle_Make',np.sort(df['Vehicle_Make'].unique()), key = '2')
-Year_Manufacture = st.sidebar.selectbox('Year_Manufacture', [0,1], key = '3')
-Loan_Tenure = st.sidebar.selectbox('Loan_Tenure', np.sort(df['Loan_Tenure'].unique()), key = '4')
-Annual_Income  = st.sidebar.selectbox('Annual_Income', np.sort(df['Annual_Income'].unique()), key = '5')
-Loan_Amount = st.sidebar.number_input('Loan_Amount', key ='6')
+def get_user_input():
+    Branch_code = st.selectbox('Branch_code', np.sort(df['Branch_code'].unique()), key='1')
+    Vehicle_Make = st.sidebar.selectbox('Vehicle_Make', np.sort(df['Vehicle_Make'].unique()), key='2')
+    Year_Manufacture = st.sidebar.selectbox('Year_Manufacture', [0, 1], key='3')
+    Loan_Tenure = st.sidebar.selectbox('Loan_Tenure', np.sort(df['Loan_Tenure'].unique()), key='4')
+    Annual_Income = st.sidebar.selectbox('Annual_Income', np.sort(df['Annual_Income'].unique()), key='5')
+    Loan_Amount = st.sidebar.number_input('Loan_Amount', key='6')
+
+    user_data = {'Branch_code': Branch_code, 'Vehicle_Make': Vehicle_Make, 'Year_Manufacture': Year_Manufacture,
+                 'Loan_Tenure': Loan_Tenure,
+                 'Annual_Income': Annual_Income, 'Loan_Amount': Loan_Amount}
+
+    features = pd.DataFrame(user_data, index=[0])
+
+    return features
+
+
+
+user_input = get_user_input()
+
+st.write(cb.predict(user_input))
