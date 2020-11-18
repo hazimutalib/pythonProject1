@@ -69,4 +69,4 @@ shap.summary_plot(shap_values, x_test)
 st.pyplot(fig1)
 
 
-Vehicle_Make = st.sidebar.selectbox('Sort by:', np.sort(df['Vehicle_Make]).unique(), key='2')
+Vehicle_Make = st.sidebar.selectbox('Sort by:', np.sort(df['Vehicle_Make'].unique()), key='1')
