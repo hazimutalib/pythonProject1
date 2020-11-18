@@ -70,20 +70,10 @@ st.pyplot(fig1)
 
 
 
-def get_user_input():
-    Branch_code = st.sidebar.selectbox('Branch_code', np.sort(df['Branch_code'].unique()), key = '1')
-    Vehicle_Make = st.sidebar.selectbox('Vehicle_brand',np.sort(df['Vehicle_Make'].unique()), key = '2')
-    Year_Manufacture = st.sidebar.selectbox('Year_Manufacture', [1,0], key = '3')
-    Loan_Tenure = st.sidebar.selectbox('Loan_Tenure', np.sort(df['Loan_Tenure'].unique()), key = '4')
-    Annual_Income = st.sidebar.slider('Annual_Income', np.sort(df['Annual_Income'].unique()), key = '5')
-    Loan_Amount = st.sidebar.selectbox('Loan_Amount', np.sort(df['Loan_Amount'].unique()), key = '6')
 
-
-    user_data = {'Branch_code':Branch_code, 'Vehicle Make' : Vehicle_Make, 'Year_Manufacture' :Year_Manufacture, 'Loan_Tenure' : Loan_Tenure,
-                 'Annual_Income' : Annual_Income, 'Loan_Amount': Loan_Amount }
-
-    features = pd.DataFrame(user_data, index = [0])
-
-    return features
-
-st.dataframe(get_user_input())
+Branch_code = st.sidebar.selectbox('Branch_code', np.sort(df['Branch_code'].unique()), key = '1')
+Vehicle_Make = st.sidebar.selectbox('Vehicle_brand',np.sort(df['Vehicle_Make'].unique()), key = '2')
+Year_Manufacture = st.sidebar.selectbox('Year_Manufacture', [1,0], key = '3')
+Loan_Tenure = st.sidebar.selectbox('Loan_Tenure', np.sort(df['Loan_Tenure'].unique()), key = '4')
+Annual_Income = st.sidebar.slider('Annual_Income', np.sort(df['Annual_Income'].unique()), key = '5')
+Loan_Amount = st.sidebar.selectbox('Loan_Amount', np.sort(df['Loan_Amount'].unique()), key = '6')
