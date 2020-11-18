@@ -8,13 +8,14 @@ from sklearn.model_selection import train_test_split
 from catboost import CatBoostRegressor
 from sklearn.metrics import mean_squared_error
 import shap
+import pickle
 import base64
 
 main_bg = "silver.png"
 main_bg_ext = "png"
 
-side_bg = "silver.png"
-side_bg_ext = "png"
+side_bg = "mustard.jpg"
+side_bg_ext = "jpg"
 
 st.markdown(
     f"""
@@ -31,60 +32,97 @@ st.markdown(
 )
 
 st.write(""" # Can You Hack It - Hong Leong Bank """)
-st.write("Auto Loan Interest Rate Calculator")
+st.write(""" ## Auto Car Loan Interest Rate Calculator""")
 
-
+st.write(""" ### Original Datasets """)
 data = pd.read_csv('autoloan.csv')
 st.dataframe(data)
 
-df = pd.read_csv('autoloan_super_cleaned.csv')
+st.write(""" ### Train Datasets """)
+df = pd.read_csv('autoloan_super_new.csv')
 st.dataframe(df)
 
+st.write(""" ### Distribution of the Datasets""")
+def distribution_graph(column):
+    fig, ax = plt.subplots()
+    if (column == 'Loan_Amount') or column == 'Interest_Rate':
+        sns.distplot(df[column])
+    else:
+        sns.countplot(df[column])
+    st.pyplot(fig)
+
+def plot_distribution():
+    column =  st.selectbox('Feature:', np.sort(df.columns), key = '9')
+    distribution_graph(column)
+
+plot_distribution()
+
+st.write(""" ### Estimator against Interest Rate Visualisation""")
+def bar_graph(column, k):
+    fig, ax = plt.subplots(1,1)
+    df.groupby(column).agg({'Interest_Rate': 'mean'}).sort_values(by = 'Interest_Rate', ascending = False).iloc[:k].plot(kind='bar', ax = ax, title = 'Interest Rate (Mean) of each ' + column)
+    st.pyplot(fig)
+
+def scatter_plot():
+    fig, ax = plt.subplots()
+    sns.scatterplot(x = 'Loan_Amount', y = 'Interest_Rate', data = df)
+    st.pyplot(fig)
+
+def plot_graph():
+    column = st.selectbox('Feature:', np.sort(df.drop('Interest_Rate', axis = 1).columns), key = '7')
+    if column == 'Loan_Amount':
+        scatter_plot()
+    else:
+        k = st.slider('Top:', 1,df[column].nunique(),  5, key = '8')
+        bar_graph(column, k)
+
+plot_graph()
 
 x = df.drop("Interest_Rate", axis=1)
 y = df["Interest_Rate"]
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 42)
 
-cb=CatBoostRegressor(eval_metric='RMSE')
-cb.fit(x_train, y_train, cat_features=[0,1,2], eval_set=(x_test, y_test),verbose = False ,plot=True)
+cb = pickle.load(open('catboost_autoloan.sav', 'rb'))
 
-
+st.write(""" ## CatBoost Perfomance """)
 df1 = pd.DataFrame(index=['R-Squared', 'Root Mean Squared Error'])
 df1['Train Score'] = [cb.score(x_train,y_train), np.sqrt(mean_squared_error(y_train, cb.predict(x_train)))]
 df1['Test Score'] = [cb.score(x_test,y_test), np.sqrt(mean_squared_error(y_test, cb.predict(x_test)))]
+df1
 
-st.dataframe(df1)
-
+st.write(""" ## Feature Importance of the Estimators""")
 ex = shap.TreeExplainer(cb)
 shap_values = ex.shap_values(x_test)
 shap.initjs()
+
 fig, ax = plt.subplots()
 shap.summary_plot(shap_values, x_test, plot_type = 'bar')
 st.pyplot(fig)
 
+st.write(""" ### Shapley Values""")
 fig1, ax1 = plt.subplots()
 shap.summary_plot(shap_values, x_test)
 st.pyplot(fig1)
 
+st.sidebar.write(""" ### Interest Rate Calculator """)
 def get_user_input():
-    Branch_code = st.sidebar.selectbox('Branch_code', np.sort(df['Branch_code'].unique()), key='1')
+    Branch_name = st.sidebar.selectbox('Branch_name', np.sort(df['Branch_name'].unique()), key='1')
     Vehicle_Make = st.sidebar.selectbox('Vehicle_Make', np.sort(df['Vehicle_Make'].unique()), key='2')
-    Year_Manufacture = st.sidebar.selectbox('Year_Manufacture', [0, 1], key='3')
+    Year_Manufacture = st.sidebar.selectbox('Year_Manufacture', np.sort(df['Year_Manufacture'].unique()), key='3')
     Loan_Tenure = st.sidebar.selectbox('Loan_Tenure', np.sort(df['Loan_Tenure'].unique()), key='4')
     Annual_Income = st.sidebar.selectbox('Annual_Income', np.sort(df['Annual_Income'].unique()), key='5')
-    Loan_Amount = st.sidebar.number_input('Loan_Amount', key='6')
+    Loan_Amount = st.sidebar.number_input('Loan_Amount', 10000,2000000,70000, key='6')
 
-    user_data = {'Branch_code': Branch_code, 'Vehicle_Make': Vehicle_Make, 'Year_Manufacture': Year_Manufacture,
+    user_data = {'Branch_name': Branch_name, 'Vehicle_Make': Vehicle_Make, 'Year_Manufacture': Year_Manufacture,
                  'Loan_Tenure': Loan_Tenure,
                  'Annual_Income': Annual_Income, 'Loan_Amount': Loan_Amount}
 
     features = pd.DataFrame(user_data, index=[0])
 
     return features
-
-
-
 user_input = get_user_input()
+st.sidebar.write('Prediction:')
+st.sidebar.write(cb.predict(user_input))
 
-st.write(cb.predict(user_input))
+
