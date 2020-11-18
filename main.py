@@ -69,4 +69,4 @@ shap.summary_plot(shap_values, x_test)
 st.pyplot(fig1)
 
 
-Branchcode = st.sidebar.selectbox('Sort by:', np.sort(df['Branch_code']).unique(), key='2')
+Branch_code = st.sidebar.selectbox('Sort by:', np.sort(df['Branch_code']).unique(), key='2')
