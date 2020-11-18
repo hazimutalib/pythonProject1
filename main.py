@@ -76,7 +76,7 @@ def get_user_input():
     Year_Manufacture = st.sidebar.selectbox('Recently Manufactured?', [1,0], key = '3')
     Loan_Tenure = st.sidebar.selectbox('Loan Tenure', np.sort(df['Loan_Tenure'].unique()), key = '4')
     Annual_Income = st.sidebar.slider('Annual_Income', np.sort(df['Annual_Income'].unique()), key = '5')
-    Loan_Amount = st.sidebar.selectbox('Loan_Amount', np.sort(df['Loan_Amount'].unique()), key = '6'))
+    Loan_Amount = st.sidebar.selectbox('Loan_Amount', np.sort(df['Loan_Amount'].unique()), key = '6')
 
 
     user_data = {'Branch_code':Branch_code, 'Vehicle_Make' : Vehicle_Make, 'Year_Manufacture' :Year_Manufacture, 'Loan_Tenure' : Loan_Tenure,
