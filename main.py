@@ -7,7 +7,7 @@ sns.set()
 from sklearn.model_selection import train_test_split
 from catboost import CatBoostRegressor
 from sklearn.metrics import mean_squared_error
-
+import shap
 import base64
 
 main_bg = "silver.png"
@@ -57,3 +57,13 @@ df1['Test Score'] = [cb.score(x_test,y_test), np.sqrt(mean_squared_error(y_test,
 st.dataframe(df1)
 
 
+ex = shap.TreeExplainer(cb)
+shap_values = ex.shap_values(x_test)
+shap.initjs()
+fig, ax = plt.subplots()
+shap.summary_plot(shap_values, x_test, plot_type = 'bar')
+st.pyplot(fig)
+
+fig1, ax1 = plt.subplots()
+shap.summary_plot(shap_values, x_test)
+st.pyplot(fig1)
