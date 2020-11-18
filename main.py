@@ -71,7 +71,7 @@ st.pyplot(fig1)
 
 
 def get_user_input():
-    Branch_code = st.sidebar.selectbox('Branch code', np.sort(df['Branch_code'].unique()), key = '1')
+    Branch_Code = st.sidebar.selectbox('Branch code', np.sort(df['Branch_Code'].unique()), key = '1')
     Vehicle_Make = st.sidebar.selectbox('Vehicle brand',np.sort(df['Vehicle_Make'].unique()), key = '2')
     Year_Manufacture = st.sidebar.selectbox('Recently Manufactured?', [1,0], key = '3')
     Loan_Tenure = st.sidebar.selectbox('Loan Tenure', np.sort(df['Loan_Tenure'].unique()), key = '4')
@@ -79,7 +79,7 @@ def get_user_input():
     Loan_Amount = st.sidebar.selectbox('Loan_Amount', np.sort(df['Loan_Amount'].unique()), key = '6')
 
 
-    user_data = {'Branch_code':Branch_code, 'Vehicle_Make' : Vehicle_Make, 'Year_Manufacture' :Year_Manufacture, 'Loan_Tenure' : Loan_Tenure,
+    user_data = {'Branch_Code':Branch_Code, 'Vehicle_Make' : Vehicle_Make, 'Year_Manufacture' :Year_Manufacture, 'Loan_Tenure' : Loan_Tenure,
                  'Annual_Income' : Annual_Income, 'Loan_Amount': Loan_Amount }
 
     features = pd.DataFrame(user_data, index = [0])
