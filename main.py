@@ -123,7 +123,11 @@ def get_user_input():
 
     return features
 user_input = get_user_input()
-st.sidebar.write('Prediction:')
+st.sidebar.write('Interest Rate Estimate:')
 st.sidebar.write(cb.predict(user_input))
-
-
+st.sidebar.write('Monthly Payment:')
+r = cb.predict(user_input)[0]/12
+p = user_input['Loan_Amount']/(((1+r)**user_input['Loan_Tenure']-1)/(r*(1+r)**user_input['Loan_Tenure']))
+a = {'Monthly Payment' : p }
+payment = pd.DataFrame(a, index = [0])
+st.sidebar.write(payment)
