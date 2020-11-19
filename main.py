@@ -45,10 +45,11 @@ st.dataframe(df)
 st.write(""" ### Distribution of the Datasets""")
 def distribution_graph(column):
     fig, ax = plt.subplots()
-    if (column == 'Loan_Amount') or column == 'Interest_Rate':
+    if (column == 'Loan_Amount') or (column == 'Interest_Rate'):
         sns.distplot(df[column])
     else:
-        sns.countplot(df[column])
+        k = st.slider('Top:', 1, df[column].nunique(), 5, key='10')
+        data.groupby(column).agg({'Interest_Rate':'count'}).sort_values(by = 'Interest_Rate', ascending = False).iloc[:k].plot(kind='bar', legend=False, ax=ax, title = 'Total count of respective ' + column)
     st.pyplot(fig)
 
 def plot_distribution():
@@ -91,7 +92,7 @@ df1['Train Score'] = [cb.score(x_train,y_train), np.sqrt(mean_squared_error(y_tr
 df1['Test Score'] = [cb.score(x_test,y_test), np.sqrt(mean_squared_error(y_test, cb.predict(x_test)))]
 df1
 
-st.write(""" ## Feature Importance of the Estimators""")
+st.write(""" ### Feature Importance of the Estimators""")
 ex = shap.TreeExplainer(cb)
 shap_values = ex.shap_values(x_test)
 shap.initjs()
