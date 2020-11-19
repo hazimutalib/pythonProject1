@@ -34,11 +34,8 @@ st.markdown(
 st.write(""" # Can You Hack It - Hong Leong Bank """)
 st.write(""" ## Auto Car Loan Interest Rate Calculator""")
 
-st.write(""" ### Original Datasets """)
-data = pd.read_csv('autoloan.csv')
-st.dataframe(data)
 
-st.write(""" ### Train Datasets """)
+st.write(""" ### Datasets for Modelling """)
 df = pd.read_csv('autoloan_super_new.csv')
 st.dataframe(df)
 
@@ -49,7 +46,7 @@ def distribution_graph(column):
         sns.distplot(df[column])
     else:
         k = st.slider('Top:', 1, df[column].nunique(), 5, key='10')
-        data.groupby(column).agg({'Interest_Rate':'count'}).sort_values(by = 'Interest_Rate', ascending = False).iloc[:k].plot(kind='bar', legend=False, ax=ax, title = 'Total count of respective ' + column)
+        df.groupby(column).agg({'Interest_Rate':'count'}).sort_values(by = 'Interest_Rate', ascending = False).iloc[:k].plot(kind='bar', legend=False, ax=ax, title = 'Total count of respective ' + column)
     st.pyplot(fig)
 
 def plot_distribution():
@@ -86,7 +83,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, rando
 
 cb = pickle.load(open('catboost_autoloan.sav', 'rb'))
 
-st.write(""" ## CatBoost Perfomance """)
+st.write(""" ### CatBoost Perfomance """)
 df1 = pd.DataFrame(index=['R-Squared', 'Root Mean Squared Error'])
 df1['Train Score'] = [cb.score(x_train,y_train), np.sqrt(mean_squared_error(y_train, cb.predict(x_train)))]
 df1['Test Score'] = [cb.score(x_test,y_test), np.sqrt(mean_squared_error(y_test, cb.predict(x_test)))]
