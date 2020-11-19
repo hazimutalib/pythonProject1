@@ -56,7 +56,6 @@ df1['Test Score'] = [cb.score(x_test,y_test), np.sqrt(mean_squared_error(y_test,
 
 st.dataframe(df1)
 
-
 ex = shap.TreeExplainer(cb)
 shap_values = ex.shap_values(x_test)
 shap.initjs()
@@ -67,3 +66,27 @@ st.pyplot(fig)
 fig1, ax1 = plt.subplots()
 shap.summary_plot(shap_values, x_test)
 st.pyplot(fig1)
+
+def get_user_input():
+    age = st.sidebar.slider('age',18,95,25)
+    balance = st.sidebar.slider('balance',-10000, 90000, 0)
+    day = st.sidebar.slider('day',1,31,15)
+    duration = st.sidebar.slider('duration',0, 40000,100)
+    campaign = st.sidebar.slider('campaign', 1,63,15)
+    pdays = st.sidebar.slider('pdays',0,854,5)
+    previous = st.sidebar.slider('previous',0,58,20)
+    job = st.sidebar.selectbox('job', ['admin.', 'technician', 'services', 'management', 'retired',
+       'blue-collar', 'unemployed', 'entrepreneur', 'housemaid',
+       'unknown', 'self-employed', 'student'], key='1')
+    education = st.sidebar.selectbox('education', ['secondary', 'tertiary', 'primary', 'unknown'], key='1')
+
+
+    user_data = {'age':age, 'balance' : balance, 'day' :day, 'duration' : duration,
+                 'campaign' : campaign, 'pdays': pdays, 'previous': previous, 'job': job,
+                 'education': education }
+
+    features = pd.DataFrame(user_data, index = [0])
+    features = pd.get_dummies(features, drop_first = True)
+    return features
+user_input = get_user_input()
+

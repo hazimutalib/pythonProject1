@@ -34,7 +34,6 @@ st.markdown(
 st.write(""" # Can You Hack It - Hong Leong Bank """)
 st.write(""" ## Auto Car Loan Interest Rate Calculator""")
 
-
 st.write(""" ### Datasets for Modelling """)
 df = pd.read_csv('autoloan_super_new.csv')
 st.dataframe(df)
