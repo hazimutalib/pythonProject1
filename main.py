@@ -74,7 +74,7 @@ def st_shap(plot, height=None):
     components.html(shap_html, height=height)
 
 
-if st.sidebar.button('Explain Prediction:'):
+if st.sidebar.button('Explain Prediction'):
     st.write("Prediction Explaination:")
     st_shap(shap.force_plot(ex1.expected_value, shap_values1[0, :], user_input))
 
