@@ -40,7 +40,7 @@ st.dataframe(df)
 
 st.write(""" ### Distribution of the Datasets""")
 def distribution_graph(column):
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize = (12,8))
     if (column == 'Loan_Amount') or (column == 'Interest_Rate'):
         sns.distplot(df[column])
     else:
@@ -56,7 +56,7 @@ plot_distribution()
 
 st.write(""" ### Estimator against Interest Rate Visualisation""")
 def bar_graph(column, k):
-    fig, ax = plt.subplots(1,1)
+    fig, ax = plt.subplots(figsize = (12,8))
     df.groupby(column).agg({'Interest_Rate': 'mean'}).sort_values(by = 'Interest_Rate', ascending = False).iloc[:k].plot(kind='bar', ax = ax, title = 'Interest Rate (Mean) of each ' + column)
     st.pyplot(fig)
 
@@ -121,9 +121,4 @@ def get_user_input():
 user_input = get_user_input()
 st.sidebar.write('Interest Rate Estimate:')
 st.sidebar.write(cb.predict(user_input))
-st.sidebar.write('Monthly Payment:')
-r = cb.predict(user_input)[0]/12
-p = user_input['Loan_Amount']/(((1+r)**user_input['Loan_Tenure']-1)/(r*(1+r)**user_input['Loan_Tenure']))
-a = {'Monthly Payment' : p }
-payment = pd.DataFrame(a, index = [0])
-st.sidebar.write(payment)
+
