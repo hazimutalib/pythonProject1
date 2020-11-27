@@ -130,4 +130,3 @@ st.write(""" ### Shap Values""")
 fig1, ax1 = plt.subplots()
 shap.summary_plot(shap_values, x_test)
 st.pyplot(fig1)
-
