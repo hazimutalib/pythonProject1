@@ -34,9 +34,8 @@ st.write(""" # Can You Hack It - Hong Leong Bank """)
 st.write(""" ## Auto Car Loan Interest Rate Calculator""")
 
 
-st.write(""" ### Datasets for Modelling """)
+
 df = pd.read_csv('autoloan_super_new.csv')
-st.dataframe(df)
 
 x = df.drop("Interest_Rate", axis=1)
 y = df["Interest_Rate"]
@@ -61,6 +60,7 @@ def get_user_input():
     features = pd.DataFrame(user_data, index=[0])
 
     return features
+
 user_input = get_user_input()
 st.sidebar.write('Interest Rate Estimate:')
 st.sidebar.write(cb.predict(user_input))
@@ -73,8 +73,13 @@ def st_shap(plot, height=None):
     shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
     components.html(shap_html, height=height)
 
+
 if st.sidebar.button('Explain Prediction:'):
-    st_shap(shap.force_plot(ex1.expected_value, shap_values1[0,:], user_input))
+    st.write("Prediction Explaination:")
+    st_shap(shap.force_plot(ex1.expected_value, shap_values1[0, :], user_input))
+
+st.write(""" ### Datasets for Modelling """)
+st.dataframe(df)
 
 st.write(""" ### Distribution of the Datasets""")
 def distribution_graph(column):
