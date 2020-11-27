@@ -65,6 +65,17 @@ user_input = get_user_input()
 st.sidebar.write('Interest Rate Estimate:')
 st.sidebar.write(cb.predict(user_input))
 
+ex1 = shap.TreeExplainer(cb)
+shap_values1 = ex1.shap_values(user_input)
+shap.initjs()
+
+def st_shap(plot, height=None):
+    shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
+    components.html(shap_html, height=height)
+
+if st.sidebar.button('Explain Prediction:'):
+    st_shap(shap.force_plot(ex1.expected_value, shap_values1[0,:], user_input))
+
 st.write(""" ### Distribution of the Datasets""")
 def distribution_graph(column):
     fig, ax = plt.subplots(figsize = (12,8))

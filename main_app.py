@@ -9,6 +9,7 @@ from sklearn.metrics import mean_squared_error
 import shap
 import pickle
 import base64
+import streamlit.components.v1 as components
 
 main_bg = "silver.png"
 main_bg_ext = "png"
@@ -62,7 +63,6 @@ def get_user_input():
 
     return features
 user_input = get_user_input()
-st.sidebar.write('Interest Rate Estimate:')
 st.sidebar.write(cb.predict(user_input))
 
 st.write(""" ### Distribution of the Datasets""")
@@ -130,3 +130,7 @@ st.write(""" ### Shap Values""")
 fig1, ax1 = plt.subplots()
 shap.summary_plot(shap_values, x_test)
 st.pyplot(fig1)
+
+
+
+
