@@ -106,8 +106,8 @@ st.sidebar.write(""" ### Interest Rate Calculator """)
 def get_user_input():
     Branch_name = st.sidebar.selectbox('Branch_name', np.sort(df['Branch_name'].unique()), key='1')
     Vehicle_Make = st.sidebar.selectbox('Vehicle_Make', np.sort(df['Vehicle_Make'].unique()), key='2')
-    Year_Manufacture = st.sidebar.selectbox('Year_Manufacture', np.sort(df['Year_Manufacture'].unique()), key='3')
-    Loan_Tenure = st.sidebar.selectbox('Loan_Tenure', np.sort(df['Loan_Tenure'].unique()), key='4')
+    Year_Manufacture = st.sidebar.selectbox('Year_Manufacture', np.sort(df['Year_Manufacture'].unique())[::-1], key='3')
+    Loan_Tenure = st.sidebar.selectbox('Loan_Tenure', np.sort(df['Loan_Tenure'].unique())[::-1], key='4')
     Annual_Income = st.sidebar.selectbox('Annual_Income', np.sort(df['Annual_Income'].unique()), key='5')
     Loan_Amount = st.sidebar.number_input('Loan_Amount', 10000,2000000,70000, key='6')
 
