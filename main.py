@@ -73,7 +73,7 @@ def distribution_graph(column):
     elif (column == 'Annual_Income') or (column == 'Year_Manufacture'):
         df.groupby(column).agg({'Interest_Rate': 'count'}).sort_values(by='Interest_Rate', ascending=False).plot(kind='bar', legend=False, ax=ax, title='Total count of respective ' + column)
     else:
-        k = st.slider('Top:', 1, df[column].nunique(), 5, key='10')
+        k = st.slider('Top:', 1, df[column].nunique(), 10, key='10')
         df.groupby(column).agg({'Interest_Rate':'count'}).sort_values(by = 'Interest_Rate', ascending = False).iloc[:k].plot(kind='bar', legend=False, ax=ax, title = 'Total count of respective ' + column)
     st.pyplot(fig)
 
