@@ -9,7 +9,7 @@ from sklearn.metrics import mean_squared_error
 import shap
 import pickle
 import base64
-
+import streamlit.components.v1 as components
 main_bg = "silver.png"
 main_bg_ext = "png"
 
