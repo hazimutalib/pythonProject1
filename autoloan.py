@@ -10,25 +10,6 @@ from sklearn.metrics import mean_squared_error
 import shap
 import base64
 
-main_bg = "silver.png"
-main_bg_ext = "png"
-
-side_bg = "silver.png"
-side_bg_ext = "png"
-
-st.markdown(
-    f"""
-    <style>
-    .reportview-container {{
-        background: url(data:image/{main_bg_ext};base64,{base64.b64encode(open(main_bg, "rb").read()).decode()})
-    }}
-   .sidebar .sidebar-content {{
-        background: url(data:image/{side_bg_ext};base64,{base64.b64encode(open(side_bg, "rb").read()).decode()})
-    }}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
 st.write(""" # Can You Hack It - Hong Leong Bank """)
 st.write("Auto Loan Interest Rate Calculator")
